@@ -1,6 +1,5 @@
 package com.example.instabug
 
-import android.webkit.WebView
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -13,15 +12,19 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
 
-        val repo = MainRepo().run {
-//            val stream = openSite("https://instabug.com/") ?: return
-//            val readText: String = stream.readText()
-//            stream.close()
-//            println(readText)
+//        val repo = MainRepo().run {
+////            val stream = openSite("https://instabug.com/") ?: return
+////            val readText: String = stream.readText()
+////            stream.close()
+////            println(readText)
+//
 //            println("------------------------------------")
-
-
-        }
+//            val target: String =
+//                ii.replace("(?<=>)([\\w\\s]+)(?=<\\/)", " ").trim()
+//            val list= parseBufferedString(input = ii)
+//            println("------------------------------------")
+//
+//        }
 
         assertEquals(4, 2 + 2)
     }

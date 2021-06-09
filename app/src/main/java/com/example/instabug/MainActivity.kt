@@ -1,37 +1,34 @@
 package com.example.instabug
 
 import android.os.Bundle
-import android.webkit.ValueCallback
-import android.webkit.WebView
+import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val webView = WebView(this)
-        webView.settings.javaScriptEnabled = true
-        webView.loadUrl("https://instabug.com/")
-        webView.zolom()
-        val repo = MainRepo().run {
-//            GlobalScope.launch {
-////                val stream = openSite("https://instabug.com/")
-//                Log.e("TAG", "stream $stream")
-//                val result: String = stream?.parseBufferedReader() ?: return@launch
-//                Log.e("TAG", "result $result")
-//                println("------------------------------------")
-//
-//                val decodedResult = result.decodeHtmlToString()
-//                Log.e("TAG", "decodedResult $decodedResult")
+        findViewById<TextView>(R.id.helloTv).setOnClickListener { viewModel.fetchData() }
+
+        GlobalScope.launch {
+            viewModel.response.filterNotNull().collect { result ->
+                Log.e("onResponse: ", "result $result")
+            }
+
         }
+
     }
 
-    fun WebView.zolom() {
-        evaluateJavascript(
-            "return document.getElementById(your_id)",
-            ValueCallback<String?> {
-                // value is your result
-            })
-    }
+
 }
