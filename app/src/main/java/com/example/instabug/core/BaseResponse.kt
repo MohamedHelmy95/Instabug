@@ -1,4 +1,4 @@
-package com.example.instabug
+package com.example.instabug.core
 
 sealed class BaseResponse<out T : Any> {
     data class Loading(val loading: Boolean) : BaseResponse<Nothing>()

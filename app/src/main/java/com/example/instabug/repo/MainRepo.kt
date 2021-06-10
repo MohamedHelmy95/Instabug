@@ -1,6 +1,9 @@
-package com.example.instabug
+package com.example.instabug.repo
 
-import android.util.Log
+import com.example.instabug.core.BaseResponse
+import com.example.instabug.utility.Mapper.getStringListFromHtml
+import com.example.instabug.utility.Mapper.getWordList
+import com.example.instabug.utility.Network.buildBufferedReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
@@ -8,13 +11,16 @@ import kotlinx.coroutines.flow.*
 class MainRepo {
 
     private val defaultDispatcher = Dispatchers.IO
-    val response = MutableStateFlow<BaseResponse<String>?>(null)
-    private val tag = "MainRepo"
-    suspend fun fetchData() = response.emitAll(buildApiCall(task = {
-        Util.parseBufferedString(
-            input = Util.buildBufferedReader().readText()
-        ) ?: ""
-    }))
+
+    suspend fun fetchData() = buildApiCall(task = {
+        val bufferReader = buildBufferedReader()
+
+        val pageHtmlText = bufferReader.readText()
+
+        val stringList = getStringListFromHtml(input = pageHtmlText)
+
+        getWordList(stringList = stringList)
+    })
 
 
     private suspend fun <T : Any> buildApiCall(
@@ -28,7 +34,6 @@ class MainRepo {
         }
         .onCompletion { emit(BaseResponse.Loading(loading = false)) }
         .catch { throwable ->
-            Log.e(tag, "buildApi: throwable $throwable")
             BaseResponse.Error(throwable = throwable)
 
         }
