@@ -11,21 +11,21 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="7dp"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/wordCountTv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Eslam" />
+        tools:text="Word Name" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/wordCountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="7dp"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/grey"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@+id/wordNameTv"
         app:layout_constraintEnd_toEndOf="parent"
