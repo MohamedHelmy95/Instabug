@@ -10,15 +10,12 @@ import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instabug.adapter.WordAdapter
 import com.example.instabug.core.BaseResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -40,28 +37,25 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerView.adapter = adapter
-        GlobalScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.response.filterNotNull().collect { response ->
-                withContext(Dispatchers.Main) {
-                    when (response) {
-                        is BaseResponse.Success -> {
-                            adapter.submitList(response.data)
-                        }
-                        is BaseResponse.Loading -> {
-                            val isProgress = response.loading
-                            progress.visibility = if (isProgress) View.VISIBLE else View.GONE
-                        }
-                        is BaseResponse.Error -> {
-                            Toast.makeText(
-                                this@MainActivity,
-                                "${response.throwable.message}",
-                                LENGTH_LONG
-                            ).show()
-                            progress.visibility = View.GONE
-
-                        }
+                when (response) {
+                    is BaseResponse.Success -> {
+                        adapter.submitList(response.data)
                     }
+                    is BaseResponse.Loading -> {
+                        val isProgress = response.loading
+                        progress.visibility = if (isProgress) View.VISIBLE else View.GONE
+                    }
+                    is BaseResponse.Error -> {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "${response.throwable.message}",
+                            LENGTH_LONG
+                        ).show()
+                        progress.visibility = View.GONE
 
+                    }
                 }
             }
 
