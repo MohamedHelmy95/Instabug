@@ -11,8 +11,10 @@ object Mapper {
     private const val delimiter = " "
 
     fun getStringListFromHtml(input: String): List<String> {
+        // todo exclude header from html page
         val bodyText = input.substringAfterLast("<body>").substringBeforeLast("</body>")
         Log.e("getStringListFromHtml: ", "body : $bodyText")
+        // todo parse text after tag 'content='
         val lines = getTextLines(bodyText = bodyText)
         Log.e("getStringListFromHtml: ", "body : $bodyText")
 

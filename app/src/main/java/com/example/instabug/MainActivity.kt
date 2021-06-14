@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         recyclerView.adapter = adapter
+
         lifecycleScope.launchWhenStarted {
             viewModel.response.filterNotNull().collect { response ->
                 when (response) {
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             "${response.throwable.message}",
                             LENGTH_LONG
                         ).show()
-                        progress.visibility = View.GONE
 
                     }
                 }

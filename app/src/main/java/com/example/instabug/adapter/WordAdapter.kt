@@ -11,6 +11,7 @@ import com.example.instabug.utility.WordListUtil.reSortList
 
 
 class WordAdapter : RecyclerView.Adapter<WordAdapter.ViewHolder>() {
+
     private val wordList = mutableListOf<Word>()
     private val wordListFiltered = mutableListOf<Word>()
 

@@ -15,10 +15,10 @@ class MainRepo {
 
     suspend fun fetchData(): Flow<BaseResponse<List<Word>>> = buildApiCall(task = {
         val bufferReader = buildBufferedReader()
-
-        val pageHtmlText = bufferReader.readText()
-
-        val stringList = getStringListFromHtml(input = pageHtmlText)
+        // todo fetch page content
+        val pageHtmlText: String = bufferReader.readText()
+        // todo parse lines list
+        val stringList: List<String> = getStringListFromHtml(input = pageHtmlText)
 
         getWordList(stringList = stringList)
     })
